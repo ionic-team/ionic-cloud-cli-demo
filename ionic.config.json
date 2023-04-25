@@ -1,0 +1,8 @@
+{
+  "name": "Ionic Cloud CLI Demo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "161d2d34"
+}
