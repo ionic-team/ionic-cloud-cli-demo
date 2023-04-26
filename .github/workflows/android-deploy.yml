@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      IONIC_TOKEN: $${{ secrets.IONIC_TOKEN }}
+      IONIC_TOKEN: ${{ secrets.IONIC_TOKEN }}
       APP_ID: '161d2d34'
       SIGNING_CERT: 'PlayStoreInternal'
       DESTINATION: 'Play Store'
