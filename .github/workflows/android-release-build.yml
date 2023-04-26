@@ -1,4 +1,4 @@
-name: Android Debug Build
+name: Android Release Build
 
 on:
   push:
@@ -6,22 +6,23 @@ on:
       - 'main'
 
 jobs:
-  Android-Debug:
+  Android-Deploy:
     runs-on: ubuntu-latest
     
     env:
       IONIC_TOKEN: ${{ secrets.IONIC_TOKEN }}
       APP_ID: '161d2d34'
+      SIGNING_CERT: 'production'
    
     steps:
     - name: Install Ionic Cloud CLI
       run: curl -sL https://ionic.io/get-ionic-cloud-cli | bash   
    
-    - name: Build Debug APK
-      run: ionic-cloud build android debug --app-id=$APP_ID --commit=$GITHUB_SHA --apk-name=debug.apk --json --token=$IONIC_TOKEN
+    - name: Build AAB
+      run: ionic-cloud build android release --app-id=$APP_ID --commit=$GITHUB_SHA --signing-cert=$SIGNING_CERT  --aab-name=app.aab --json --token=$IONIC_TOKEN
   
-    - name: Upload APK
+    - name: Upload AAB
       uses: actions/upload-artifact@v3
       with:
-        name: Debug APK
-        path: ./debug.apk
+        name: Signed AAB
+        path: ./app.aab

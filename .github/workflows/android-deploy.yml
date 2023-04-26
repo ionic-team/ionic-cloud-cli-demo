@@ -12,7 +12,7 @@ jobs:
     env:
       IONIC_TOKEN: ${{ secrets.IONIC_TOKEN }}
       APP_ID: '161d2d34'
-      SIGNING_CERT: 'PlayStoreInternal'
+      SIGNING_CERT: 'production'
       DESTINATION: 'Play Store'
    
     steps:
