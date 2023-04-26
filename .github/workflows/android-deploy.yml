@@ -23,7 +23,7 @@ jobs:
       id: android_build
       run: |
         ANDROID_BUILD_ID=$(ionic-cloud build android release --app-id=$APP_ID --commit=$GITHUB_SHA --signing-cert=$SIGNING_CERT  --aab-name=app.aab --json --token=$IONIC_TOKEN | jq -r ".buildId")
-        echo "::set-output name=ANDROID_BUILD_ID::$ANDROID_BUILD_ID"
+        echo "ANDROID_BUILD_ID=$ANDROID_BUILD_ID" >> $GITHUB_OUTPUT
   
     - name: Upload AAB
       uses: actions/upload-artifact@v3
