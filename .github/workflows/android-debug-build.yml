@@ -1,0 +1,33 @@
+name: Android Debug Build
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  Android-Debug:
+    runs-on: ubuntu-latest
+    
+    env:
+      IONIC_TOKEN: $${{ secrets.IONIC_TOKEN }}
+      APP_ID: '161d2d34'
+   
+    steps:
+    - name: Install Ionic Cloud CLI
+      run: curl -sL https://ionic.io/get-ionic-cloud-cli | bash   
+   
+    - name: Build Debug APK and Save Android Build ID
+      id: android_build
+      run: |
+        ANDROID_BUILD_ID=$(ionic-cloud build android debug --app-id="$APP_ID" --commit="$GITHUB_SHA" --apk-name="debug.apk" --json --token="$IONIC_TOKEN" | jq -r ".buildId")
+        echo "::set-output name=ANDROID_BUILD_ID::$ANDROID_BUILD_ID"
+
+    - name: Check Build ID Output
+      run: echo ${{ steps.android_build.outputs.ANDROID_BUILD_ID }}
+  
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: Debug APK
+        path: ./debug.apk
