@@ -13,7 +13,7 @@ jobs:
       IONIC_TOKEN: ${{ secrets.IONIC_TOKEN }}
       APP_ID: '161d2d34'
       SIGNING_CERT: 'production'
-      DESTINATION: 'Play Store'
+      DESTINATION: 'Google Play Internal'
    
     steps:
     - name: Install Ionic Cloud CLI
