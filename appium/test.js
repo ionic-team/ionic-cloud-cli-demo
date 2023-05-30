@@ -24,7 +24,6 @@ async function runTest() {
     await tab3El.click();
 
   } finally {
-    await driver.pause(1000);
     await driver.deleteSession();
   }
 }
