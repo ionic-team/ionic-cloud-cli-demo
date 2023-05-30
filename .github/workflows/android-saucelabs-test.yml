@@ -1,0 +1,25 @@
+name: Run Android SauceLabs Appium test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+    
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start Appium
+        run: npx appium@next &
+
+      - name: Run Test in SauceLabs
+        run: npm run test:saucelabs
+        env:
+          SAUCELABS_USER: ${{ secrets.SAUCELABS_USER }}
+          SAUCELABS_KEY: ${{ secrets.SAUCELABS_KEY }}
+          BUILD_ID: GHA_TEST_1

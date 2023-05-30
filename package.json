@@ -10,7 +10,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "appflow:build": "if [ \"$CI_PLATFORM\" != \"web\" ]; then npx trapeze run appflow.yml -y --$CI_PLATFORM; fi && npm run build"
+    "appflow:build": "if [ \"$CI_PLATFORM\" != \"web\" ]; then npx trapeze run appflow.yml -y --$CI_PLATFORM; fi && npm run build",
+    "test:saucelabs": "node appium/saucelabs-test.js"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,8 @@
     "@capacitor/status-bar": "4.1.1",
     "@ionic/angular": "^7.0.0",
     "@trapezedev/configure": "^7.0.8",
+    "appium": "^2.0.0-beta.71",
+    "appium-uiautomator2-driver": "^2.25.1",
     "ionicons": "^7.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
