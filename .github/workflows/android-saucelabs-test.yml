@@ -14,7 +14,7 @@ jobs:
       APP_ID: '161d2d34'
       SAUCELABS_USER: ${{ secrets.SAUCELABS_USER }}
       SAUCELABS_KEY: ${{ secrets.SAUCELABS_KEY }}
-      APK_FILENAME: 'gha-test.apk'
+      APK_FILENAME: ${{ github.sha }}.apk
 
     steps:
       - name: Checkout code
@@ -30,15 +30,15 @@ jobs:
         run: ionic-cloud build android debug --app-id=$APP_ID --commit=$GITHUB_SHA --apk-name=$APK_FILENAME --json --token=$IONIC_TOKEN
 
       - name: Upload APK to SauceLabs
-        run: curl -u ${SAUCELABS_USER}:${SAUCELABS_KEY} --location --request POST https://api.us-west-1.saucelabs.com/v1/storage/upload --form payload=@"./$APK_FILENAME" --form 'name="$APK_FILENAME"'
-
+        run: curl -u ${SAUCELABS_USER}:${SAUCELABS_KEY} --location --request POST https://api.us-west-1.saucelabs.com/v1/storage/upload --form payload=@"./${APK_FILENAME}" --form 'name="${APK_FILENAME}"'
+    
       - name: Start Appium
         run: npx appium@next &
 
       - name: Run Test in SauceLabs
         run: npm run test:saucelabs
         env:
-          SAUCELABS_USER: $SAUCELABS_USER
-          SAUCELABS_KEY: $SAUCELABS_KEY
-          BUILD_ID: $GITHUB_SHA
-          APP_FILENAME: $APK_FILENAME
+          SAUCELABS_USER: ${{ env.SAUCELABS_USER }}
+          SAUCELABS_KEY: ${{ env.SAUCELABS_KEY }}
+          BUILD_ID: ${{ github.sha }}
+          APP_FILENAME: ${{ env.APK_FILENAME }}
