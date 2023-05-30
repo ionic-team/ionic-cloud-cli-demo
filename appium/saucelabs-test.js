@@ -2,7 +2,7 @@ const {remote} = require('webdriverio');
 
 const capabilities = {
     platformName: 'Android',
-    'appium:app': 'storage:filename=app-debug.apk', // The filename of the mobile app in saucelabs
+    'appium:app': `storage:filename=${process.env.APP_FILENAME}`, // The filename of the mobile app in saucelabs
     'appium:deviceName': 'Samsung_Galaxy_S9_free',
     'appium:deviceOrientation': 'portrait',
     'appium:automationName': 'UiAutomator2',

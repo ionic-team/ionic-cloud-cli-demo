@@ -1,11 +1,19 @@
 name: Run Android SauceLabs Appium test
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
 
 jobs:
-  build:
+  saucelabs:
     runs-on: ubuntu-latest
+
+    env:
+      IONIC_TOKEN: ${{ secrets.IONIC_TOKEN }}
+      APP_ID: '161d2d34'
+      SAUCELABS_USER: ${{ secrets.SAUCELABS_USER }}
+      SAUCELABS_KEY: ${{ secrets.SAUCELABS_KEY }}
 
     steps:
       - name: Checkout code
@@ -13,6 +21,18 @@ jobs:
     
       - name: Install dependencies
         run: npm ci
+      
+      - name: Install Ionic Cloud CLI
+        run: curl -sL https://ionic.io/get-ionic-cloud-cli | bash
+
+      - name: Build Debug APK
+        run: ionic-cloud build android debug --app-id=$APP_ID --commit=$GITHUB_SHA --apk-name=${GITHUB_SHA}.apk --json --token=$IONIC_TOKEN
+
+      - name: Upload APK to SauceLabs
+        run: curl -u ${SAUCELABS_USER}:${SAUCELABS_KEY} --location \
+        --request POST https://api.us-west-1.saucelabs.com/v1/storage/upload \
+        --form payload=@"./${GITHUB_SHA}.apk" \
+        --form 'name="${GITHUB_SHA}.apk"'
 
       - name: Start Appium
         run: npx appium@next &
@@ -20,6 +40,7 @@ jobs:
       - name: Run Test in SauceLabs
         run: npm run test:saucelabs
         env:
-          SAUCELABS_USER: ${{ secrets.SAUCELABS_USER }}
-          SAUCELABS_KEY: ${{ secrets.SAUCELABS_KEY }}
-          BUILD_ID: GHA_TEST_1
+          SAUCELABS_USER: $SAUCELABS_USER
+          SAUCELABS_KEY: $SAUCELABS_KEY
+          BUILD_ID: $GITHUB_SHA
+          APP_FILENAME: ${GITHUB_SHA}.apk
