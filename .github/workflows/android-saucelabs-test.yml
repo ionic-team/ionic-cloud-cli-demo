@@ -30,7 +30,7 @@ jobs:
         run: ionic-cloud build android debug --app-id=$APP_ID --commit=$GITHUB_SHA --apk-name=$APK_FILENAME --json --token=$IONIC_TOKEN
 
       - name: Upload APK to SauceLabs
-        run: curl -u ${SAUCELABS_USER}:${SAUCELABS_KEY} --location --request POST https://api.us-west-1.saucelabs.com/v1/storage/upload --form payload=@"./${APK_FILENAME}" --form 'name="${APK_FILENAME}"'
+        run: curl -u ${SAUCELABS_USER}:${SAUCELABS_KEY} --location --request POST https://api.us-west-1.saucelabs.com/v1/storage/upload --form payload=@"./"${APK_FILENAME}"" --form "name="${APK_FILENAME}""
     
       - name: Start Appium
         run: npx appium@next &
