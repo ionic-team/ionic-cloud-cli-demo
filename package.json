@@ -11,7 +11,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "appflow:build": "if [ \"$CI_PLATFORM\" != \"web\" ]; then npx trapeze run appflow.yml -y --$CI_PLATFORM; fi && npm run build",
-    "test:saucelabs": "node appium/saucelabs-test.js"
+    "test:saucelabs:android": "node appium/saucelabs-android-test.js",
+    "test:saucelabs:ios": "node appium/saucelabs-ios-test.js"
   },
   "private": true,
   "dependencies": {

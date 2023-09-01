@@ -2,7 +2,7 @@ const {remote} = require('webdriverio');
 
 const capabilities = {
     platformName: 'iOS',
-    'appium:app': `storage:filename=react-native-cli-test-main-41a946-app-store.ipa`, // The filename of the mobile app in saucelabs
+    'appium:app': `storage:filename=ionic-cloud-cli-demo-main-54a784-development.ipa`, // The filename of the mobile app in saucelabs
     'appium:deviceName': 'iPhone_12_free',
     'appium:deviceOrientation': 'portrait',
     'appium:automationName': 'XCUITest',
@@ -25,10 +25,10 @@ const capabilities = {
       });
 
       try {
-        const tab2El = await driver.$('//*[@text="Tab 2"]');
+        const tab2El = await driver.$('//*[@name="Tab 2"]');
         await tab2El.click();
     
-        const tab3El = await driver.$('//*[@text="Tab 3"]');
+        const tab3El = await driver.$('//*[@name="Tab 3"]');
         await tab3El.click();
     
       } finally {
